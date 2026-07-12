@@ -29,6 +29,11 @@
 
 * { box-sizing: border-box; }
 
+/* The [hidden] attribute must always win over layout rules like
+   `.field-row { display: flex }`, which otherwise override the UA
+   `[hidden] { display: none }` at equal specificity. */
+[hidden] { display: none !important; }
+
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
@@ -762,6 +767,15 @@ footer.site .foot-inner {
   flex-wrap: wrap;
 }
 footer.site b { color: var(--ink-2); }
+.foot-legal {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+  max-width: 92ch;
+}
 
 /* ---------- print: the split sheet only ---------- */
 @media print {

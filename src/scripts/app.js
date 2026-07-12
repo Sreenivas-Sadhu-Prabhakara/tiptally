@@ -402,7 +402,6 @@ function renderSheet() {
   // header numbers
   $('#sheet-pool').textContent = money(res.poolCents);
   $('#sheet-method').textContent = res.methodLabel;
-  $('#sheet-distributable').textContent = money(res.distributableCents);
   $('#sheet-date').textContent = new Date().toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'short',

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --paper: #f4f1e8;
+    --card: #fbfaf5;
+    --ink: #1a1a16;
+    --ink-2: #4f4a3e;
+    --ink-3: #7a7263;
+    --line: #d8d1bf;
+    --line-strong: #b3a98f;
+    --accent: #1f6f5c;
+    --accent-ink: #14493c;
+    --accent-soft: #e4efe9;
+    --mono: "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      linear-gradient(90deg, transparent calc(100% - 1px), rgba(31, 111, 92, 0.06) 0),
+      repeating-linear-gradient(transparent, transparent 39px, rgba(26,26,22,0.035) 39px, rgba(26,26,22,0.035) 40px);
+    background-size: 40px 40px, 100% 40px;
+    display: flex;
+    padding: 60px;
+    gap: 54px;
+    align-items: stretch;
+  }
+  .left { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .brand {
+    display: flex; align-items: baseline; gap: 16px;
+    padding-bottom: 20px; border-bottom: 3px solid var(--ink);
+  }
+  .brand .mark {
+    font-family: var(--mono); font-weight: 700; font-size: 52px;
+    letter-spacing: -0.02em; color: var(--ink);
+  }
+  .brand .mark b { color: var(--accent); }
+  .brand .tag {
+    font-size: 15px; text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--ink-3); font-weight: 700;
+  }
+  .head { margin-top: 44px; }
+  h1 {
+    font-weight: 800; font-size: 66px; line-height: 1.02;
+    letter-spacing: -0.025em; max-width: 15ch;
+  }
+  h1 .hl { color: var(--accent-ink); box-shadow: inset 0 -0.34em 0 var(--accent-soft); }
+  .sub {
+    margin-top: 26px; font-size: 25px; line-height: 1.42;
+    color: var(--ink-2); max-width: 26ch;
+  }
+  .chips { margin-top: auto; display: flex; gap: 12px; flex-wrap: wrap; }
+  .chip {
+    font-family: var(--mono); font-size: 18px; font-weight: 600;
+    color: var(--accent-ink); background: var(--accent-soft);
+    border: 1px solid #cfe0d8; border-radius: 999px; padding: 8px 16px;
+  }
+  /* the receipt sheet, tilted, as the signature object */
+  .sheet-wrap { flex: 0 0 400px; display: flex; align-items: center; }
+  .sheet {
+    width: 100%; background: var(--card);
+    padding: 30px 26px 26px; position: relative;
+    box-shadow: 0 14px 40px rgba(26,26,22,0.18);
+    transform: rotate(2.2deg);
+    --tape: 15px;
+  }
+  .sheet::before, .sheet::after {
+    content: ""; position: absolute; left: 0; right: 0; height: var(--tape);
+    background: radial-gradient(circle at 8px 0, transparent 6px, var(--card) 6.5px) 0 0 / 15px var(--tape) repeat-x;
+  }
+  .sheet::before { top: calc(-1 * var(--tape) + 1px); transform: scaleY(-1); }
+  .sheet::after { bottom: calc(-1 * var(--tape) + 1px); }
+  .s-title {
+    font-family: var(--mono); font-weight: 700; letter-spacing: 0.18em;
+    font-size: 14px; text-transform: uppercase; color: var(--ink-2); text-align: center;
+  }
+  .s-pool {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 46px; font-weight: 700; text-align: center; margin: 6px 0 4px;
+  }
+  .s-meta {
+    font-family: var(--mono); font-size: 14px; color: var(--ink-3);
+    text-align: center; padding-bottom: 16px;
+    border-bottom: 1px dashed var(--line-strong);
+  }
+  .row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: 21px; padding: 10px 0;
+    border-bottom: 1px dotted var(--line);
+  }
+  .row .nm { color: var(--ink); }
+  .row .rl { color: var(--ink-3); font-size: 14px; margin-left: 8px; }
+  .row .amt { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .recon {
+    display: flex; align-items: center; gap: 10px; margin-top: 16px;
+    padding-top: 14px; border-top: 3px solid var(--ink);
+    font-family: var(--mono); font-size: 15px;
+  }
+  .recon .badge {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #fff; background: var(--accent); padding: 3px 10px; border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="brand">
+      <span class="mark">tip<b>tally</b></span>
+      <span class="tag">split sheet</span>
+    </div>
+    <div class="head">
+      <h1>Split the tip pool so <span class="hl">nobody feels cheated</span>.</h1>
+      <p class="sub">Weighted role-hours, by hours, equal, or by sales — with the exact per-person math shown.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">shows the math</span>
+      <span class="chip">cents reconcile</span>
+      <span class="chip">100% on your device</span>
+    </div>
+  </div>
+
+  <div class="sheet-wrap">
+    <div class="sheet">
+      <div class="s-title">Shift split sheet</div>
+      <div class="s-pool">$582.00</div>
+      <div class="s-meta">Weighted role &times; hours</div>
+      <div class="row"><span><span class="nm">Devon</span><span class="rl">Server</span></span><span class="amt">$168.42</span></div>
+      <div class="row"><span><span class="nm">Maya</span><span class="rl">Server</span></span><span class="amt">$136.84</span></div>
+      <div class="row"><span><span class="nm">Priya</span><span class="rl">Bartender</span></span><span class="amt">$147.37</span></div>
+      <div class="row"><span><span class="nm">Luis</span><span class="rl">Busser</span></span><span class="amt">$73.68</span></div>
+      <div class="row"><span><span class="nm">Sam</span><span class="rl">Host</span></span><span class="amt">$55.69</span></div>
+      <div class="recon">
+        <span class="badge">Balanced</span>
+        <span>shares + tip-outs = pool, to the cent</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,43 +1,27 @@
-# Astro Starter Kit: Minimal
+# tiptally
+
+A fair tip-split and tip-out calculator that shows its work — so a shift's tips can be divided in a way the whole team can see is even-handed.
+
+![tiptally — a split sheet showing each person's tip share, the exact formula, and a balanced total](./preview.png)
+
+## Why it exists
+
+"Split the tips" sounds simple until you try to do it fairly. Roles contribute differently, hours differ, the bar and bussers get a tip-out off the top, and percentage shares almost never land on whole cents — so someone always ends up feeling short-changed. tiptally does the arithmetic four ways (weighted role-hours, by hours, equal, or by sales), takes tip-outs off the top first, and prints a split sheet that spells out the exact formula behind every share and proves the cents add up to the pool. It runs entirely in the browser: no accounts, no tracking, and a strict content-security policy that blocks any outbound connection, so nothing about a shift ever leaves the device.
+
+## Quickstart
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install      # install dependencies
+npm run dev      # local dev server at http://localhost:4321
+npm run build    # production build to ./dist
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Everything is static — the built `dist/` folder can be hosted on any static host.
 
-## 🚀 Project Structure
+## Disclaimer
 
-Inside of your Astro project, you'll see the following folders and files:
+tiptally is a math tool for making a split transparent; it is **not legal, payroll, or tax advice**. Tip-pooling and tip-credit rules vary by country, state, and role. The software is provided "as is" under the MIT License, without warranty of any kind, and the authors accept no liability for how any split is used. Verify any arrangement against your local labor law and your workplace policy before using it to pay people.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## License
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+[MIT](./LICENSE) © 2026 Sreenivas Sadhu Prabhakara

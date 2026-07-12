@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 512px; height: 512px; }
+  body {
+    display: flex; align-items: center; justify-content: center;
+    /* full-bleed background so the icon is maskable (safe zone ~40%) */
+    background: #1f6f5c;
+    background-image: radial-gradient(circle at 34% 28%, #2a8770 0%, #1f6f5c 46%, #185848 100%);
+  }
+  .badge {
+    width: 512px; height: 512px; position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* faint ledger rules on the green field */
+  .badge::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(transparent, transparent 33px, rgba(255,255,255,0.05) 33px, rgba(255,255,255,0.05) 34px);
+  }
+  /* the receipt slip, upright, within the maskable safe zone */
+  .slip {
+    position: relative;
+    width: 232px; height: 300px;
+    background: #f7f4ea;
+    border-radius: 6px;
+    box-shadow: 0 18px 44px rgba(9, 38, 31, 0.4);
+    padding: 34px 26px;
+    --tape: 16px;
+  }
+  .slip::before, .slip::after {
+    content: ""; position: absolute; left: 0; right: 0; height: var(--tape);
+    background: radial-gradient(circle at 9px 0, transparent 7px, #f7f4ea 7.5px) 0 0 / 18px var(--tape) repeat-x;
+  }
+  .slip::before { top: calc(-1 * var(--tape) + 1px); transform: scaleY(-1); }
+  .slip::after { bottom: calc(-1 * var(--tape) + 1px); }
+  .rule { height: 13px; border-radius: 3px; background: #4f4a3e; margin-bottom: 20px; }
+  .rule.a { width: 100%; }
+  .rule.b { width: 62%; }
+  .rule.c { width: 78%; }
+  /* the split pie sits over the slip, bottom-right — the "tally" of the share */
+  .pie {
+    position: absolute; right: 22px; bottom: 26px;
+    width: 128px; height: 128px; border-radius: 50%;
+    background: conic-gradient(#1f6f5c 0 62%, #14493c 62% 100%);
+    box-shadow: 0 6px 16px rgba(9, 38, 31, 0.35), inset 0 0 0 6px #f7f4ea;
+  }
+  .pie::after {
+    content: ""; position: absolute; left: 50%; top: 8px; bottom: 8px;
+    width: 4px; margin-left: -2px; background: #f7f4ea; border-radius: 2px;
+    transform: rotate(43deg); transform-origin: center;
+  }
+</style>
+</head>
+<body>
+  <div class="badge">
+    <div class="slip">
+      <div class="rule a"></div>
+      <div class="rule c"></div>
+      <div class="rule b"></div>
+      <div class="pie"></div>
+    </div>
+  </div>
+</body>
+</html>

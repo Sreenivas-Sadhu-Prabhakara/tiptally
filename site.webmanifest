@@ -1,0 +1,36 @@
+{
+  "name": "tiptally — fair tip split calculator",
+  "short_name": "tiptally",
+  "description": "Split a tip pool fairly and transparently: weighted role-hours, by hours, equal, or by sales. Shows the exact per-person math. Runs 100% on your device.",
+  "start_url": "/tiptally/",
+  "scope": "/tiptally/",
+  "display": "standalone",
+  "theme_color": "#1f6f5c",
+  "background_color": "#f4f1e8",
+  "icons": [
+    {
+      "src": "/tiptally/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tiptally/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tiptally/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tiptally/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

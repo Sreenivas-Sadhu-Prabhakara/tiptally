@@ -21,7 +21,7 @@ const EXAMPLE_STATE = {
   method: 'weighted',
   poolCash: 240,
   poolCard: 360,
-  splitCashCard: false,
+  splitCashCard: true,
   roles: { ...DEFAULT_ROLES },
   tipOuts: [
     { label: 'Bar tip-out', pct: 3 },

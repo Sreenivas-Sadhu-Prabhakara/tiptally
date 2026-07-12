@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+
+const {
+  title = 'tiptally — fair tip split & tip-out calculator',
+  description = 'Split a tip pool fairly and transparently: weighted role-hours, by hours, equal, or by sales. Handle tip-outs, see the exact per-person math, and print a split sheet. 100% on your device.',
+  faqJsonLd = null,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL; // e.g. /tiptally/
+const site = Astro.site?.href?.replace(/\/$/, '') ?? '';
+const canonical = `${site}${base}`;
+const favicon = `${base}favicon.svg`;
+
+const appJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'tiptally',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description,
+  url: canonical,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- CSP: brand = enforced privacy. Nothing leaves the device. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#1f6f5c" />
+    <meta
+      name="keywords"
+      content="tip split calculator, tip pool calculator, tip out calculator, split tips by hours, fair tip sharing"
+    />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="tiptally" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(appJsonLd)} />
+    {faqJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqJsonLd)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#tool">Skip to the calculator</a>
+    <slot />
+  </body>
+</html>

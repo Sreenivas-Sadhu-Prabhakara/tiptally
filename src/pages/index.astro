@@ -1,0 +1,285 @@
+---
+import Base from '../layouts/Base.astro';
+
+const faq = [
+  {
+    q: 'How do you split tips fairly?',
+    a: 'There is no single legal answer, but the common fair methods weight each person by how much and what they contributed. tiptally supports four: weighted role-hours (a server-hour can count more than a busser-hour, by an editable weight), by hours only, an equal split, and by individual sales for commission-style pools. Whichever you pick, the tool shows the exact formula behind every share so the team can see it is even-handed.',
+  },
+  {
+    q: 'What is a tip-out?',
+    a: 'A tip-out is a share of tips that front-of-house staff pass to support roles — often the bar and bussers — usually as a small percentage taken off the top before the rest of the pool is divided. For example, servers might tip out 3% to the bar and 2% to bussers. tiptally removes those amounts first, then splits what remains.',
+  },
+  {
+    q: 'What are role weights and why change them?',
+    a: 'A role weight scales how much a role earns per hour worked. Defaults are server 1.0, bartender 1.0, busser 0.7, host 0.6, kitchen 0.5, but every workplace is different, so all of them are editable. Set kitchen to 0 to exclude them, or raise a role to reflect your house policy.',
+  },
+  {
+    q: 'How do the cents add up exactly?',
+    a: 'Percentage shares almost never land on whole cents. tiptally rounds everyone down first, then hands out the leftover cents one at a time to the people with the largest fractional remainders. That is the largest-remainder method, and it guarantees the shares plus tip-outs sum to the pool to the exact cent. The sheet shows this reconciliation.',
+  },
+  {
+    q: 'Can I split tips by hours worked?',
+    a: 'Yes. Choose the "By hours" method and each person receives a share proportional to the hours they worked that shift, ignoring role. It is the simplest transparent method when everyone does similar work.',
+  },
+  {
+    q: 'Does my data leave my device?',
+    a: 'No. tiptally runs entirely in your browser. Your roster and settings are saved only in this browser via localStorage, and a strict content-security policy blocks any outbound network connection. Nothing is uploaded.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Base faqJsonLd={faqJsonLd}>
+  <header class="masthead">
+    <div class="masthead-inner wrap">
+      <div class="brand">
+        <span class="brand-mark">tip<b>tally</b></span>
+        <span class="brand-tag">split sheet</span>
+      </div>
+      <p class="masthead-note">
+        Transparent tip &amp; commission splitting. Everyone sees why they got their share — and
+        nothing leaves your device.
+      </p>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="hero-eyebrow">Fair splits, shown work</p>
+      <h1>Split the tip pool so <span class="hl">nobody feels cheated</span>.</h1>
+      <p>
+        Enter the pool and who worked the shift. tiptally shows each person's share, the exact
+        formula behind it, and proves the cents add up to the pool. Print it and post it.
+      </p>
+    </div>
+  </section>
+
+  <main id="tool" class="wrap">
+    <div class="workbench">
+      <!-- ==================== INPUTS ==================== -->
+      <div class="controls-col">
+        <!-- 1. Pool -->
+        <section class="panel">
+          <h2><span class="step-tag">01</span>The pool</h2>
+          <p class="panel-sub">Total tips collected this shift.</p>
+
+          <div class="field-row">
+            <div class="field field-narrow">
+              <label for="currency">Currency</label>
+              <select id="currency" aria-label="Currency symbol"></select>
+            </div>
+            <div class="field" id="pool-single-wrap">
+              <label for="pool-single">Tip pool</label>
+              <div class="money-input">
+                <span class="cur-prefix" aria-hidden="true">$</span>
+                <input id="pool-single" type="number" min="0" step="0.01" inputmode="decimal"
+                  aria-label="Total tip pool" />
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row" id="pool-split-wrap" hidden>
+            <div class="field">
+              <label for="pool-cash">Cash tips</label>
+              <div class="money-input">
+                <span class="cur-prefix" aria-hidden="true">$</span>
+                <input id="pool-cash" type="number" min="0" step="0.01" inputmode="decimal"
+                  aria-label="Cash tips" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="pool-card">Card tips</label>
+              <div class="money-input">
+                <span class="cur-prefix" aria-hidden="true">$</span>
+                <input id="pool-card" type="number" min="0" step="0.01" inputmode="decimal"
+                  aria-label="Card tips" />
+              </div>
+            </div>
+          </div>
+
+          <label class="toggle">
+            <input type="checkbox" id="split-cashcard" />
+            <span class="track" aria-hidden="true"></span>
+            Track cash and card separately
+          </label>
+        </section>
+
+        <!-- 2. Method -->
+        <section class="panel">
+          <h2><span class="step-tag">02</span>Split method</h2>
+          <p class="panel-sub">How the remaining pool is divided.</p>
+          <div class="methods" role="radiogroup" aria-label="Split method">
+            <label class="method">
+              <input type="radio" name="method" value="weighted" />
+              <span class="m-badge">In use</span>
+              <span class="m-name">Weighted role × hours</span>
+              <span class="m-desc">Role weight times hours. The default.</span>
+            </label>
+            <label class="method">
+              <input type="radio" name="method" value="hours" />
+              <span class="m-badge">In use</span>
+              <span class="m-name">By hours</span>
+              <span class="m-desc">Proportional to hours worked.</span>
+            </label>
+            <label class="method">
+              <input type="radio" name="method" value="equal" />
+              <span class="m-badge">In use</span>
+              <span class="m-name">Equal split</span>
+              <span class="m-desc">Same share for everyone.</span>
+            </label>
+            <label class="method">
+              <input type="radio" name="method" value="sales" />
+              <span class="m-badge">In use</span>
+              <span class="m-name">By sales</span>
+              <span class="m-desc">Commission — by each person's sales.</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- 3. Tip-outs -->
+        <section class="panel">
+          <h2><span class="step-tag">03</span>Tip-outs</h2>
+          <p class="panel-sub">
+            Percentages support roles take off the top, before the rest of the pool splits.
+          </p>
+          <div id="tipout-list"></div>
+          <button type="button" class="dashed-add" id="add-tipout">+ Add a tip-out</button>
+        </section>
+
+        <!-- 4. Roster -->
+        <section class="panel">
+          <h2><span class="step-tag">04</span>The team</h2>
+          <p class="panel-sub">Who worked, how long, and their role.</p>
+          <div id="roster" data-sales="off">
+            <div class="roster-scroll">
+              <table class="roster">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th class="num">Hours</th>
+                    <th class="num th-sales">Sales</th>
+                    <th><span class="visually-hidden">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="roster-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <button type="button" class="dashed-add" id="add-person">+ Add a person</button>
+          <div class="btn-row">
+            <button type="button" class="btn btn-ghost" id="reset-example">Load example</button>
+            <button type="button" class="btn btn-ghost" id="clear-roster">Clear team</button>
+          </div>
+        </section>
+
+        <!-- 5. Role weights -->
+        <section class="panel">
+          <h2><span class="step-tag">05</span>Role weights</h2>
+          <p class="panel-sub">
+            How much each role earns per hour, relative to a server. Edit to match your house.
+          </p>
+          <div class="roles-grid" id="roles-list"></div>
+        </section>
+      </div>
+
+      <!-- ==================== OUTPUT: THE SHEET ==================== -->
+      <div class="sheet-col">
+        <div class="sheet" id="sheet" data-summary="">
+          <div class="sheet-head">
+            <div class="s-title">Shift split sheet</div>
+            <div class="s-pool money" id="sheet-pool">$0.00</div>
+            <div class="s-meta">
+              <span id="sheet-method">Weighted role × hours</span> ·
+              <span id="sheet-date"></span>
+            </div>
+            <div class="s-cashcard" id="sheet-cashcard" hidden></div>
+          </div>
+
+          <div id="sheet-tipouts" hidden></div>
+          <div id="sheet-body"></div>
+
+          <div class="recon" id="sheet-recon"></div>
+
+          <p class="print-only" style="margin-top:14px;font-size:10pt;color:#333;">
+            Not legal, payroll, or tax advice. Verify against local labor law and your workplace
+            policy.
+          </p>
+
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-accent" id="copy-btn">Copy summary</button>
+            <button type="button" class="btn" id="print-btn">Print / save PDF</button>
+          </div>
+          <p class="save-status" id="save-status" data-on="false" aria-live="polite">Saved</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer screen-only">
+      <strong>Not legal, payroll, or tax advice.</strong> tiptally is a math tool to make a split
+      transparent. Tip-pooling and tip-credit rules vary by country, state, and role — verify any
+      arrangement against your local labor law and your workplace policy before you use it to pay
+      people.
+    </div>
+
+    <!-- ==================== EXPLAINERS ==================== -->
+    <section class="section" aria-labelledby="methods-h">
+      <p class="section-eyebrow">The four methods</p>
+      <h2 id="methods-h">Pick the split that fits your shift</h2>
+      <div class="methods-explain">
+        <article class="mx-card">
+          <h3>Weighted role-hours</h3>
+          <code>weight × hours ÷ total × pool</code>
+          <p>The default. A server-hour and a busser-hour can carry different value. Fair when roles do genuinely different work.</p>
+        </article>
+        <article class="mx-card">
+          <h3>By hours</h3>
+          <code>hours ÷ total hours × pool</code>
+          <p>Simplest transparent method. Every hour is worth the same, whatever the role.</p>
+        </article>
+        <article class="mx-card">
+          <h3>Equal split</h3>
+          <code>pool ÷ number of people</code>
+          <p>Everyone takes home the same. Good for small, tight teams that share everything.</p>
+        </article>
+        <article class="mx-card">
+          <h3>By sales (commission)</h3>
+          <code>sales ÷ total sales × pool</code>
+          <p>Split proportionally to what each person rang up. Enter sales per person in the team table.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-h">
+      <p class="section-eyebrow">Common questions</p>
+      <h2 id="faq-h">Tip splitting, answered</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap foot-inner">
+      <span><b>tiptally</b> — a fair tip split &amp; tip-out calculator. Runs entirely on your device.</span>
+      <span>No accounts, no tracking, no data leaves this browser.</span>
+    </div>
+  </footer>
+
+  <script src="../scripts/app.js"></script>
+</Base>
